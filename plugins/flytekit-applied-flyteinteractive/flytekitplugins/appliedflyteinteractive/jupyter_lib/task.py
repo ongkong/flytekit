@@ -149,7 +149,7 @@ def _must_install_jupyter_dependencies() -> None:
     # There is a bug in notebook==7.x.x that prevent it from running in a bazel context.
     # https://github.com/bazelbuild/rules_python/issues/63#issuecomment-1934027548.
     execute_command(
-        "pip install jupyter==1.0.0 notebook==7.2.1",
+        "python3.10 -m pip install jupyter==1.0.0 notebook==7.2.1",
         env={},
     )
 
