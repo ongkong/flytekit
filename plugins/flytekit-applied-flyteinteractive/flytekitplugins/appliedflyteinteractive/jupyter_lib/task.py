@@ -347,7 +347,9 @@ class JupyterFunctionTask(PythonFunctionTask[JupyterConfig]):
         #   - '--NotebookApp.token='': Disables token-based authentication by setting an empty token.
         #   - '--NotebookApp.base_url': Sets the base url of the jupyter notebook server.
         logger.info("Start the jupyter notebook server...")
-        cmd = f"jupyter notebook --ip='*' --port {task_config.port} --no-browser --notebook-dir={task_config.notebook_dir} --NotebookApp.token='' --allow-root --NotebookApp.base_url {path}"
+        # We explicitly prefix with `python3` to use the python interpretor from any
+        # venve set up.
+        cmd = f"python3 -m ipykernel install --name=bazel_venv; python3 $(which jupyter) notebook --ip='*' --port {task_config.port} --no-browser --notebook-dir={task_config.notebook_dir} --NotebookApp.token='' --allow-root --NotebookApp.base_url {path} --MultiKernelManager.default_kernel_name 'bazel_venv'"
 
         #   - '--NotebookApp.shutdown_no_activity_timeout': Sets the maximum duration of inactivity
         #     before shutting down the Jupyter Notebook server automatically.
